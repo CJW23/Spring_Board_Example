@@ -1,4 +1,4 @@
-package org.zerock.web;
+package org.zerock.dao;
 
 import javax.inject.Inject;
 
@@ -20,6 +20,7 @@ public class MemberDAOTest {
 		MemberVO tmp = dao.readWithPW("ad", "asd");
 		System.out.println(tmp.toString());
 	}
+	
 	
 	public void testInsert()throws Exception{
 		MemberVO memberVO = new MemberVO();

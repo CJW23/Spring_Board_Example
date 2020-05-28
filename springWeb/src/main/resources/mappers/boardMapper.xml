@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.BoardMapper">
+	<insert id="insertBoard">
+	INSERT INTO tbl_board (title, des, writer)
+	VALUES (#{title}, #{des}, #{writer})
+	</insert>
+	
+	<!-- 목록 보여줄때는 제목과 날짜 작성자만 보여주도록 고치 -->
+	<select id="selectBoardList" resultType="BoardVO">
+	<![CDATA[
+	SELECT *
+	FROM tbl_board
+	WHERE id > 0
+	ORDER BY id DESC
+	]]> 
+	</select>
+	
+	<select id="selectBoard" resultType="BoardVO">
+	SELECT *
+	FROM tbl_board
+	WHERE id = #{id}
+	</select>
+	
+	<update id="updateBoard">
+	UPDATE tbl_board
+	SET title=#{title}, des=#{des}
+	WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteBoard">
+	DELETE FROM tbl_board
+	WHERE id=#{id}
+	</delete>
+</mapper>

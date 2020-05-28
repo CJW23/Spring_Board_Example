@@ -3,6 +3,7 @@ package org.zerock.domain;
 import java.util.Date;
 
 public class MemberVO {
+	private int id;
 	private String userid;
 	private String userpw;
 	private String username;
@@ -10,6 +11,12 @@ public class MemberVO {
 	private Date regdate;
 	private Date updatedate;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getUserid() {
 		return userid;
 	}
