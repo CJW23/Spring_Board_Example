@@ -4,10 +4,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Service;
 import org.zerock.dao.BoardDAO;
 import org.zerock.domain.BoardVO;
 
+@Service
 public class BoardServiceImpl implements BoardService{
 	@Inject
 	BoardDAO boardDAO;
