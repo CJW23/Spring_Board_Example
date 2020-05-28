@@ -36,24 +36,26 @@
 	<div class="container-contact100">
 
 		<div class="wrap-contact100">
-			<form class="contact100-form validate-form" role="form" method="post">
+			<form class="contact100-form validate-form">
 				<span class="contact100-form-title">
 					POSTS
 				</span>
 
 				<div class="wrap-input100 validate-input" data-validate="Please enter your name">
-					<input class="input100" type="text" name="title" placeholder="Title">
-					
+					<input class="input100" type="text" value="${posts.title}" name="title" placeholder="Title" readonly>
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input">
-					<textarea class="input100" name="des" placeholder="Description"></textarea>
+					<textarea class="input100" name="des" placeholder="Description" readonly>
+						${posts.des}
+					</textarea>
 				</div>
 
 				<div class="container-contact100-form-btn">
-					<button type="submit" class="contact100-form-btn">
+					<button class="contact100-form-btn">
 						<span>
+						
 							Post
 						</span>
 					</button>
