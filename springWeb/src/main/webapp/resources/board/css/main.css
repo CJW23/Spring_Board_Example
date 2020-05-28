@@ -75,6 +75,7 @@ textarea:focus, input:focus {
 button {
 	outline: none !important;
 	border: none;
+	margin: 100%;
 	background: transparent;
 }
 

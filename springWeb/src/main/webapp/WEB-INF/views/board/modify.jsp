@@ -41,43 +41,37 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	<form role="form" id="actionform" method="post">
-		<input type="hidden" name="id" value="${posts.id}">
-	</form>
-	<div class="container-contact100">
-		<div class="wrap-contact100">
-			<span class="contact100-form-title"> POSTS </span>
-			<div class="wrap-input100 validate-input"
-				data-validate="Please enter your name">
-				<input class="input100" type="text" value="${posts.title}"
-					name="title" placeholder="Title" readonly> <span
-					class="focus-input100"></span>
-			</div>
+	<form role="form" name="actionform" method="post">
+		<input type="hidden" name="id" value="${board.id}">
+		<div class="container-contact100">
+			<div class="wrap-contact100">
+				<span class="contact100-form-title"> POSTS </span>
+				<div class="wrap-input100 validate-input"
+					data-validate="Please enter your name">
+					<input class="input100" type="text" value="${board.title}"
+						name="title" placeholder="Title"> <span
+						class="focus-input100"></span>
+				</div>
 
-			<div class="wrap-input100 validate-input">
-				<textarea class="input100" name="des" placeholder="Description"
-					readonly>
-						${posts.des}
-					</textarea>
-			</div>
+				<div class="wrap-input100 validate-input">
+					<textarea class="input100" name="des" placeholder="Description">
+					${board.des}
+				</textarea>
+				</div>
 
-			<div class="container-contact100-form-btn">
-				<button type="submit" id="update" class="contact100-form-btn">
-					<span> update </span>
-				</button>
-				&emsp;
-				<button type="submit" id="remove" class="contact100-form-btn">
-					<span> remove </span>
-				</button>
-				&emsp;
-				<button type="button" onclick="location.href='/board'" id="list"
-					class="contact100-form-btn">
-					<span> list </span>
-				</button>
+				<div class="container-contact100-form-btn">
+					<button type="submit" id="save" class="contact100-form-btn">
+						<span> save </span>
+					</button>
+					&emsp;
+					<button type="button" onclick="location.href='/posts/${board.id}'"
+						id="cancel" class="contact100-form-btn">
+						<span> cancel </span>
+					</button>
+				</div>
 			</div>
 		</div>
-	</div>
-
+	</form>
 	<div id="dropDownSelect1"></div>
 
 	<!--===============================================================================================-->
@@ -102,21 +96,11 @@
 	<!--===============================================================================================-->
 	<script src="../resources/register/js/main.js"></script>
 	<script>
-		var form = $("form[role='form']");
-		$("#update").on("click", function() {
+		var form = document.actionform;
+		$("#save").on("click", function() {
 			form.attr("action", "/modify");
-			form.attr("method", "get");
 			form.submit();
 		});
-
-		$("#remove").on("click", function() {
-			form.attr("action", "/remove");
-			form.attr("method", "get");
-			form.submit();
-		});
-		if ('${modifyresult}' == 'true') {
-			alert("수정 완료");
-		}
 	</script>
 </body>
 </html>
