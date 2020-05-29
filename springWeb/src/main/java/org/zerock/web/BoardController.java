@@ -53,6 +53,7 @@ public class BoardController {
 	public String registerTry(BoardVO board, RedirectAttributes attr) throws Exception {
 		board.setWriter(3);
 		service.regist(board);
+		logger.info(board.getDes());
 		attr.addFlashAttribute("msg", "success");
 		return "redirect:/board";
 	}
