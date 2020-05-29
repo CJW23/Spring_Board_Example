@@ -64,7 +64,7 @@
 								<c:forEach items="${list}" var="boardVO">
 									<tr class="row100 body">
 										<td class="cell100 column1"><a
-											href='/posts/${boardVO.id}'>${boardVO.title}</a></td>
+											href='/posts/${boardVO.id}?curPage=${maker.cri.curPage}&perPageNum=${maker.cri.perPageNum}'>${boardVO.title}</a></td>
 										<td class="cell100 column2"><fmt:formatDate
 												pattern="yyyy-MM-dd  kk:mm:ss" value="${boardVO.regdate}" /></td>
 										<td class="cell100 column3">${boardVO.viewcnt}</td>

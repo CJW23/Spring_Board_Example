@@ -41,8 +41,10 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	<form role="form" id="actionform" method="post">
-		<input type="hidden" name="id" value="${posts.id}">
+	<form role="form" id="actionform" method="get">
+		<input type="hidden" name="id" value="${posts.id}"> 
+		<input type="hidden" name="curPage" value="${cri.curPage}"> 
+		<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
 	</form>
 	<div class="container-contact100">
 		<div class="wrap-contact100">
@@ -70,8 +72,7 @@
 					<span> remove </span>
 				</button>
 				&emsp;
-				<button type="button" onclick="location.href='/board'" id="list"
-					class="contact100-form-btn">
+				<button type="submit" id="list" class="contact100-form-btn">
 					<span> list </span>
 				</button>
 			</div>
@@ -111,6 +112,11 @@
 
 		$("#remove").on("click", function() {
 			form.attr("action", "/remove");
+			form.attr("method", "get");
+			form.submit();
+		});
+		$("#list").on("click", function() {
+			form.attr("action", "/board");
 			form.attr("method", "get");
 			form.submit();
 		});

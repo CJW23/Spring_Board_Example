@@ -43,6 +43,8 @@
 <body>
 	<form role="form" name="actionform" method="post">
 		<input type="hidden" name="id" value="${board.id}">
+		<input type="hidden" name="curPage" value="${cri.curPage}">
+		<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
 		<div class="container-contact100">
 			<div class="wrap-contact100">
 				<span class="contact100-form-title"> POSTS </span>
@@ -64,8 +66,7 @@
 						<span> save </span>
 					</button>
 					&emsp;
-					<button type="button" onclick="location.href='/posts/${board.id}'"
-						id="cancel" class="contact100-form-btn">
+					<button type="button" onclick="history.back(-1);" id="cancel" class="contact100-form-btn">
 						<span> cancel </span>
 					</button>
 				</div>

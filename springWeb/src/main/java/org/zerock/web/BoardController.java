@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,14 +28,15 @@ public class BoardController {
 
 	// 게시글 리스트
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
-	public String board(CriteriaVO cri, Model model) throws Throwable {
-		logger.info("---------get register");
+	public String board(CriteriaVO cri, Model model) throws Exception {
 		//게시물 리스트
 		model.addAttribute("list", service.listPage(cri));
 		BoardPageMaker maker = new BoardPageMaker(cri);
 		maker.setTotalCnt(service.totalNum());
+		
 		logger.info(cri.toString());
 		logger.info(maker.toString());
+		
 		//페이지 번호 정보 
 		model.addAttribute("maker", maker);
 		return "/board/board";
@@ -49,7 +51,6 @@ public class BoardController {
 	// 등록 요청 처리
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerTry(BoardVO board, RedirectAttributes attr) throws Exception {
-		System.out.println("xxxxx" + board.getTitle());
 		board.setWriter(3);
 		service.regist(board);
 		attr.addFlashAttribute("msg", "success");
@@ -58,30 +59,33 @@ public class BoardController {
 	
 	//조회 페이지
 	@RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
-	public String readPost(@PathVariable int id, Model model) throws Exception {
+	public String readPost(@PathVariable int id, @ModelAttribute("cri") CriteriaVO cri, Model model) throws Exception {
 		model.addAttribute("posts", service.read(id));
 		return "/board/posts";
 	}
 
 	// 수정 페이지
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modifyPage(int id, Model model) throws Exception {
+	public String modifyPage(int id, @ModelAttribute("cri") CriteriaVO cri, Model model) throws Exception {
 		model.addAttribute("board", service.read(id));
 		return "/board/modify";
 	}
 
 	// 수정 요청 처리
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modifyPost(BoardVO board, RedirectAttributes attr) throws Exception {
+	public String modifyPost(BoardVO board, CriteriaVO cri, RedirectAttributes attr) throws Exception {
 		service.modify(board);
-		attr.addFlashAttribute("modifyresult", "true");
+		logger.info("왜 안돼 " + cri.toString());
+		attr.addAttribute("curPage", cri.getCurPage());
+		attr.addAttribute("perPageNum", cri.getPerPageNum());
 		return "redirect:/posts/" + board.getId();
 	}
 
 	@RequestMapping(value = "/remove", method = RequestMethod.GET)
-	public String removePost(int id, RedirectAttributes attr) throws Exception {
+	public String removePost(int id, CriteriaVO cri, RedirectAttributes attr) throws Exception {
 		service.remove(id);
-		attr.addFlashAttribute("rmresult", "true");
+		attr.addAttribute("curPage", cri.getCurPage());
+		attr.addAttribute("perPageNum", cri.getPerPageNum());
 		return "redirect:/board";
 	}
 	
