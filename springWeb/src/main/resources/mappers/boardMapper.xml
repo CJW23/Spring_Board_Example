@@ -34,4 +34,16 @@
 	DELETE FROM tbl_board
 	WHERE id=#{id}
 	</delete>
+	
+	<select id="selectPageBoardList" resultType="BoardVO">
+	SELECT *
+	FROM tbl_board
+	ORDER BY id DESC
+	LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="totalNum" resultType="int">
+	SELECT COUNT(id)
+	FROM tbl_board
+	</select>
 </mapper>

@@ -6,12 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.domain.BoardPageMaker;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.CriteriaVO;
 import org.zerock.service.BoardService;
 
 @Controller
@@ -23,9 +27,16 @@ public class BoardController {
 
 	// 게시글 리스트
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
-	public String board(Model model) throws Exception {
+	public String board(CriteriaVO cri, Model model) throws Throwable {
 		logger.info("---------get register");
-		model.addAttribute("list", service.listAll());
+		//게시물 리스트
+		model.addAttribute("list", service.listPage(cri));
+		BoardPageMaker maker = new BoardPageMaker(cri);
+		maker.setTotalCnt(service.totalNum());
+		logger.info(cri.toString());
+		logger.info(maker.toString());
+		//페이지 번호 정보 
+		model.addAttribute("maker", maker);
 		return "/board/board";
 	}
 
@@ -44,7 +55,8 @@ public class BoardController {
 		attr.addFlashAttribute("msg", "success");
 		return "redirect:/board";
 	}
-
+	
+	//조회 페이지
 	@RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
 	public String readPost(@PathVariable int id, Model model) throws Exception {
 		model.addAttribute("posts", service.read(id));
@@ -72,4 +84,5 @@ public class BoardController {
 		attr.addFlashAttribute("rmresult", "true");
 		return "redirect:/board";
 	}
+	
 }

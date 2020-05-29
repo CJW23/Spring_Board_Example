@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.CriteriaVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -38,6 +39,16 @@ public class BoardDAOImpl implements BoardDAO{
 	public void deleteBoard(int id) {
 		sqlSession.delete(namespace+".deleteBoard", id);
 		
+	}
+
+	@Override
+	public List<BoardVO> listPage(CriteriaVO cri) {
+		return sqlSession.selectList(namespace + ".selectPageBoardList", cri);
+	}
+
+	@Override
+	public int totalBoardNum() {
+		return sqlSession.selectOne(namespace+".totalNum");
 	}
 	
 }

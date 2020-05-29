@@ -3,6 +3,7 @@ package org.zerock.dao;
 import java.util.List;
 
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.CriteriaVO;
 
 public interface BoardDAO {
 	public List<BoardVO> readBoardList();
@@ -10,4 +11,6 @@ public interface BoardDAO {
 	public void createBoard(BoardVO boardVO);
 	public void updateBoard(BoardVO boardVO);
 	public void deleteBoard(int id);
+	public List<BoardVO> listPage(CriteriaVO cri);
+	public int totalBoardNum();
 }

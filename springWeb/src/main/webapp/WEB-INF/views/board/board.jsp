@@ -80,6 +80,20 @@
 					onclick="location.href='/register'">글쓰기</button>
 			</div>
 		</div>
+		
+		<c:if test="${maker.prev}">
+			<li><a href="/board?curPage=${maker.startPage-1}&perPageNum=${maker.cri.perPageNum}">prev</a></li>
+		</c:if>
+		
+		<c:forEach begin="${maker.startPage}" end="${maker.endPage}" var="idx">
+			<li <c:out value="${maker.cri.curPage == idx?'class = active':''}"/>>
+			<a href="/board?curPage=${idx}&perPageNum=${maker.cri.perPageNum}">${idx}</a>
+			</li>
+		</c:forEach>
+		
+		<c:if test="${maker.next && maker.endPage > 0}">
+			<li><a href="/board?curPage=${maker.endPage+1}&perPageNum=${maker.cri.perPageNum}">next</a></li>
+		</c:if>
 	</div>
 
 
