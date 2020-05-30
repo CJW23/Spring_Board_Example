@@ -13,4 +13,6 @@ public interface BoardService {
 	public List<BoardVO> listAll() throws Exception;
 	public List<BoardVO> listPage(CriteriaVO cri) throws Exception; 
 	public int totalNum() throws Exception;
+	public List<BoardVO> searchListPage(CriteriaVO cri) throws Exception;
+	public int searchTotalNum(CriteriaVO cri) throws Exception;
 }

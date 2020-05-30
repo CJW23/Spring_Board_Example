@@ -48,25 +48,30 @@
 	</select>
 	
 	<sql id="search">
-		(title like CONCAT('%', #{keyword}, '%') OR des like CONCAT('%', #{keyword}, '%')) 
+		<if test="keyword != null">
+		WHERE (title like CONCAT('%', #{keyword}, '%') OR des like CONCAT('%', #{keyword}, '%'))
+		</if>
 	</sql>
 	
 	<select id="searchList" resultType="BoardVO">
 		<![CDATA[
 		SELECT *
 		FROM tbl_board
-		WHERE 
 		]]>
 		<include refid="search"></include>
+		<![CDATA[
+		ORDER BY id DESC
+		LIMIT #{pageStart}, #{perPageNum}
+		]]>
 	</select>
 	
 	<select id="searchListNum" resultType="int">
 		<![CDATA[
 		SELECT COUNT(id)
 		FROM tbl_board
-		WHERE 
 		]]>
 		<include refid="search"></include>
+
 	</select>
 	
 </mapper>

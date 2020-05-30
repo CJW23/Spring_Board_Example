@@ -30,12 +30,14 @@ public class BoardController {
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
 	public String board(CriteriaVO cri, Model model) throws Exception {
 		//게시물 리스트
-		model.addAttribute("list", service.listPage(cri));
+		model.addAttribute("list", service.searchListPage(cri));
 		BoardPageMaker maker = new BoardPageMaker(cri);
-		maker.setTotalCnt(service.totalNum());
-		
-		logger.info(cri.toString());
+		logger.info(Integer.toString(service.searchTotalNum(cri)));
 		logger.info(maker.toString());
+		maker.setTotalCnt(service.searchTotalNum(cri));	//페이징 계산
+		
+
+
 		
 		//페이지 번호 정보 
 		model.addAttribute("maker", maker);

@@ -48,5 +48,15 @@ public class BoardServiceImpl implements BoardService{
 	public int totalNum() throws Exception {
 		return boardDAO.totalBoardNum();
 	}
+
+	@Override
+	public List<BoardVO> searchListPage(CriteriaVO cri) throws Exception {
+		return boardDAO.searchBoardList(cri);
+	}
+
+	@Override
+	public int searchTotalNum(CriteriaVO cri) throws Exception {
+		return boardDAO.searchBoardNum(cri);
+	}
 	
 }
