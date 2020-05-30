@@ -50,5 +50,16 @@ public class BoardDAOImpl implements BoardDAO{
 	public int totalBoardNum() {
 		return sqlSession.selectOne(namespace+".totalNum");
 	}
+
+	@Override
+	public List<BoardVO> searchBoardList(CriteriaVO cri) throws Exception {
+		return sqlSession.selectList(namespace+".searchList", cri);
+	}
+
+	@Override
+	public int searchBoardNum(CriteriaVO cri) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace+".searchListNum", cri);
+	}
 	
 }

@@ -1,5 +1,8 @@
 package org.zerock.domain;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class BoardPageMaker {
 	private CriteriaVO cri;		//현재 페이지, 한 페이지당 보여줄 게시글 수
 	private int totalCnt;		//전체 게시글 수
@@ -28,6 +31,18 @@ public class BoardPageMaker {
 		
 		prev = startPage == 1 ? false : true;
 		next = endPage * cri.getPerPageNum() >= totalCnt ? false : true;
+	}
+	
+	private String encoding(String keyword) {
+		if(keyword == null || keyword.trim().length() == 0) {
+			return "";
+		}
+		
+		try {
+			return URLEncoder.encode(keyword, "UTF-8");
+		} catch(UnsupportedEncodingException e) {
+			return "";
+		}
 	}
 	public void setCri(CriteriaVO cri) {
 		this.cri = cri;

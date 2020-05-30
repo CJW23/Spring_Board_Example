@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.CriteriaVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/root-context.xml" })
@@ -33,7 +34,7 @@ public class BoardDAOTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void selectBoardTest() throws Exception {
 		BoardVO boardVO = dao.readBoard(3);
 		System.out.println(boardVO.toString());
@@ -51,5 +52,22 @@ public class BoardDAOTest {
 	// @Test
 	public void deleteBoardTest() throws Exception {
 		dao.deleteBoard(2);
+	}
+	
+	//@Test
+	public void searchListBoardTest() throws Exception {
+		CriteriaVO cri = new CriteriaVO();
+		cri.setKeyword("안드로이드");
+		List<BoardVO> list = dao.searchBoardList(cri);
+		for (BoardVO boardVO : list) {
+			System.out.println(boardVO.toString());
+		}
+	}
+	
+	@Test
+	public void searchListBoardNumTest() throws Exception{
+		CriteriaVO cri = new CriteriaVO();
+		cri.setKeyword("안드로이드");
+		System.out.println(dao.searchBoardNum(cri));
 	}
 }

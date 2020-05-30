@@ -13,4 +13,6 @@ public interface BoardDAO {
 	public void deleteBoard(int id);
 	public List<BoardVO> listPage(CriteriaVO cri);
 	public int totalBoardNum();
+	public List<BoardVO> searchBoardList(CriteriaVO cri) throws Exception;
+	public int searchBoardNum(CriteriaVO cri) throws Exception;
 }

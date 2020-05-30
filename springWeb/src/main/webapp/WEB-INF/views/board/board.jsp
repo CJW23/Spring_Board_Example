@@ -87,12 +87,10 @@
 								</div>
 								&nbsp; &nbsp;&nbsp; &nbsp;
 								<div class="col-sm4">
-									<form class="form-inline">
-										<input class="form-control" type="text" placeholder="Search" aria-label="Search">
-									</form>
+									<input class="form-control" type="text" id="keyword" placeholder="Search" aria-label="Search">
 								</div>
 								<div class="col-sm4">
-									<button type="button" class="btn btn-light">검색</button>
+									<button type="button" id="search" class="btn btn-light">검색</button>
 								</div>
 							</div>
 
@@ -110,7 +108,7 @@
 										<c:forEach items="${list}" var="boardVO">
 											<tr>
 												<td><a
-													href='/posts/${boardVO.id}?curPage=${maker.cri.curPage}&perPageNum=${maker.cri.perPageNum}'>${boardVO.title}</a>
+													href='/posts/${boardVO.id}?curPage=${maker.cri.curPage}&perPageNum=${maker.cri.perPageNum}&keyword=${maker.cri.keyword}'>${boardVO.title}</a>
 												</td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd  kk:mm:ss"
 														value="${boardVO.regdate}" /></td>
@@ -125,7 +123,7 @@
 
 									<c:if test="${maker.prev}">
 										<li class="page-item"><a class="page-link"
-											href="/board?curPage=${maker.startPage-1}&perPageNum=${maker.cri.perPageNum}">prev</a>
+											href="/board?curPage=${maker.startPage-1}&perPageNum=${maker.cri.perPageNum}&keyword=${maker.cri.keyword}">prev</a>
 										</li>
 									</c:if>
 
@@ -134,13 +132,13 @@
 										<li class="page-item"
 											<c:out value="${maker.cri.curPage == idx?'class = active':''}" />>
 											<a class="page-link"
-											href="/board?curPage=${idx}&perPageNum=${maker.cri.perPageNum}">${idx}</a>
+											href="/board?curPage=${idx}&perPageNum=${maker.cri.perPageNum}&keyword=${maker.cri.keyword}">${idx}</a>
 										</li>
 									</c:forEach>
 
 									<c:if test="${maker.next && maker.endPage > 0}">
 										<li class="page-item"><a class="page-link"
-											href="/board?curPage=${maker.endPage+1}&perPageNum=${maker.cri.perPageNum}">next</a>
+											href="/board?curPage=${maker.endPage+1}&perPageNum=${maker.cri.perPageNum}&keyword=${maker.cri.keyword}">next</a>
 										</li>
 									</c:if>
 								</ul>
@@ -180,6 +178,9 @@
         if ('${rmresult}' == 'true') {
             alert("삭제 완료");
         }
+        $("#search").on("click", function(event){
+            self.location = "board?curPage=${maker.startPage}&perPageNum=${maker.cri.perPageNum}&keyword=" + encodeURIComponent($('#keyword').val());
+        });
     </script>
 </body>
 

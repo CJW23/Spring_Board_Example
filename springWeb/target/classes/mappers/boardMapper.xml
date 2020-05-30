@@ -46,4 +46,27 @@
 	SELECT COUNT(id)
 	FROM tbl_board
 	</select>
+	
+	<sql id="search">
+		(title like CONCAT('%', #{keyword}, '%') OR des like CONCAT('%', #{keyword}, '%')) 
+	</sql>
+	
+	<select id="searchList" resultType="BoardVO">
+		<![CDATA[
+		SELECT *
+		FROM tbl_board
+		WHERE 
+		]]>
+		<include refid="search"></include>
+	</select>
+	
+	<select id="searchListNum" resultType="int">
+		<![CDATA[
+		SELECT COUNT(id)
+		FROM tbl_board
+		WHERE 
+		]]>
+		<include refid="search"></include>
+	</select>
+	
 </mapper>
