@@ -83,11 +83,11 @@
 								&nbsp; &nbsp;
 								<div class="col-sm4">
 									<button type="button" class="btn btn-primary"
-										onclick="location.href='/board'">글쓰기</button>
+										onclick="location.href='/register'">글쓰기</button>
 								</div>
 								&nbsp; &nbsp;&nbsp; &nbsp;
 								<div class="col-sm4">
-									<input class="form-control" type="text" id="keyword" placeholder="Search" aria-label="Search">
+									<input class="form-control" type="text" id="keyword" value="${maker.cri.keyword}" placeholder="Search" aria-label="Search">
 								</div>
 								<div class="col-sm4">
 									<button type="button" id="search" class="btn btn-light">검색</button>
