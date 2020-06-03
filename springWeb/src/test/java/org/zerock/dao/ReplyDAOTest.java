@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.zerock.domain.CriteriaVO;
 import org.zerock.domain.ReplysVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,9 +41,25 @@ public class ReplyDAOTest {
 		reply.setReplytext("update");
 		replyDAO.updteReply(reply);
 	}
-	@Test
+	
+	//@Test
 	public void deleteReplyTest() {
 		replyDAO.deleteReply(2);
 	}
 	
+	//@Test
+	public void totalReplyNumTest() {
+		System.out.println(replyDAO.totalReply(15));
+	}
+	
+	@Test
+	public void selectPageReplyListTest() {
+		CriteriaVO cri = new CriteriaVO();
+		cri.setCurPage(1);
+		cri.setPerPageNum(10);
+		List<ReplysVO> list = replyDAO.listPageReply(15, cri);
+		for (ReplysVO replysVO : list) {
+			System.out.println(replysVO.toString());
+		}
+	}
 }

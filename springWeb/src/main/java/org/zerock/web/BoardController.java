@@ -92,4 +92,8 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
+	@RequestMapping(value="/test", method=RequestMethod.GET)
+	public String test() {
+		return "replies/test";
+	}
 }

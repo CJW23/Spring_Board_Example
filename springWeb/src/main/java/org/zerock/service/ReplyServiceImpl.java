@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 import org.zerock.dao.ReplyDAO;
+import org.zerock.domain.CriteriaVO;
 import org.zerock.domain.ReplysVO;
 
 @Service
@@ -33,6 +34,16 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public void removeReply(int id) {
 		replyDAO.deleteReply(id);
+	}
+
+	@Override
+	public int totalReply(int bid) {
+		return replyDAO.totalReply(bid);
+	}
+
+	@Override
+	public List<ReplysVO> listPageReply(int bid, CriteriaVO cri) {
+		return replyDAO.listPageReply(bid, cri);
 	}
 
 }
