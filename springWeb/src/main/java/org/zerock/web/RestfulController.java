@@ -36,7 +36,7 @@ public class RestfulController {
 		
 	}
 	
-	@RequestMapping(value = "/{bid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/all/{bid}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReplysVO>> listReply(@PathVariable int bid){
 		try {
 			List<ReplysVO> reply = service.listReply(bid);
@@ -58,10 +58,11 @@ public class RestfulController {
 		}
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public ResponseEntity<String> update(@RequestBody ReplysVO reply){
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<String> update(@PathVariable int id, @RequestBody ReplysVO reply){
 		logger.info(reply.toString());
 		try {
+			reply.setId(id);
 			service.modifyReply(reply);
 			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		} catch(Exception e) {

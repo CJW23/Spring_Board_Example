@@ -1,11 +1,14 @@
 package org.zerock.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.zerock.domain.CriteriaVO;
 import org.zerock.domain.ReplysVO;
 
 @Repository
@@ -36,6 +39,21 @@ public class ReplyDAOImpl implements ReplyDAO {
 	@Override
 	public void updteReply(ReplysVO reply) {
 		sqlSession.update(namespace+".updateReply", reply);
+	}
+
+
+	@Override
+	public int totalReply(int bid) {
+		return sqlSession.selectOne(namespace+".selectTotalReply", bid);
+	}
+
+
+	@Override
+	public List<ReplysVO> listPageReply(int bid, CriteriaVO cri) {
+		Map<String, Object> mp = new HashMap<String, Object>();
+		mp.put("cri", cri);
+		mp.put("bid", bid);
+		return sqlSession.selectList(namespace+".selectPageReplyList", mp);
 	}
 
 }

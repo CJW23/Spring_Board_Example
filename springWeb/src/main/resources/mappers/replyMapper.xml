@@ -23,4 +23,18 @@
 	SET replytext=#{replytext}, updatedate=now()
 	WHERE id = #{id}
 	</update>
+	
+	<select id="selectTotalReply" resultType="int">
+	SELECT COUNT(id)
+	FROM tbl_reply
+	WHERE bid = #{bid}
+	</select>
+	
+	<select id="selectPageReplyList" resultType="ReplysVO">
+	SELECT *
+	FROM tbl_reply
+	WHERE bid=#{bid}
+	ORDER BY id DESC
+	LIMIT #{pageStart), #(perPageNum)
+	</select>
 </mapper>
