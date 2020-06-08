@@ -186,11 +186,12 @@
                     if (result == "SUCCESS") {
                         getPageList(replyPage);
                     }
+                    $("#newReplyWriter").val("");
+                    $("#newReplyText").val("");
                 }
             })
         });
 
-        //댓글 닫기
 
         //수정 버튼 눌렀을 때
         function openReplyButton() {
