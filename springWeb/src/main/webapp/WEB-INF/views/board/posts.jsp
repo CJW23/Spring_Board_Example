@@ -17,6 +17,19 @@
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+        #replyer-input:focus {
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+            overflow: hidden;
+            width: 100%;
+            min-height: 50px;
+            max-height: 300px;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -79,10 +92,12 @@
                         <div class="card-header">게시글 등록</div>
                         <div class="card-body">
                             <label class="small mb-1" for="inputFirstName">제목</label>
-                            <input class="form-control py-4" name="title" type="text" value="${posts.title}" readonly/>
+                            <input class="form-control py-4" name="title" type="text" value="${posts.title}" readonly
+                            />
                             <div class="form-group">
                                 <label class="small mb-1" for="inputEmailAddress">내용</label>
-                                <textarea class="form-control py-4" rows="10" style="resize:none" name="des" aria-describedby="emailHelp" readonly>${posts.des}</textarea>
+                                <textarea oninput="auto_grow(this)" class="form-control py-4" style="resize: none" name="des" aria-describedby="emailHelp"
+                                    readonly>${posts.des}</textarea>
                             </div>
                             <div class="row">
                                 <div class="col-sm">
@@ -97,35 +112,35 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+                <div class="container-fluid">
+                    댓글 작성
+                    <br>
+                    <br>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <input type="text" class="form-control py-4" name='replyer' id='newReplyWriter'>
+                        </div>
+                        <div class="card-body">
+                            <textarea oninput="auto_grow(this)" class="form-control py-4" rows="1" style="resize: none" name='replytext' id='newReplyText'></textarea>
+                            <button id="replyAddbtn" class="btn btn-primary">ADD</button>
+                        </div>
+                    </div>
+
+
+                    <!--댓글-->
+                    <div id="replies">
+                       
+                    </div>
+                    <ul class="pagination"></ul>
+                </div>
+
             </main>
 
         </div>
     </div>
 
-    <div>
-        replyer
-        <input type="text" name='replyer' id='newReplyWriter'> reply text
-        <input type="text" name='replytext' id='newReplyText'>
-        <button id="replyAddbtn">ADD</button>
-    </div>
-    <div id='modDiv' style="display : none">
-        <div class="modal-title">
-        </div>
-        <div>
-            <input type='text' id='replytext'>
-        </div>
-        <div>
-            <button type="button" id="replyModBtn">Modify</button>
-            <button type="button" id="replyDelBtn">DELETE</button>
-            <button type="button" id="closeBtn">Close</button>
-        </div>
-    </div>
-    <ul id="replies">
 
-    </ul>
-    <ul class="pagination"></ul>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -136,12 +151,15 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="../resources/board/assets/demo/datatables-demo.js"></script>
-        <script>
+    <script>
         var bid = '${posts.id}';
         var id;
+        var replyTitle;
+        var replyDes;
         var replyPage = 1;
         getPageList(1); //초기
 
+        //페이징 버튼
         $(".pagination").on("click", "li a", function (event) {
             event.preventDefault();
             replyPage = $(this).attr("href");
@@ -149,6 +167,7 @@
             getPageList(replyPage);
         });
 
+        //댓글 달기 버튼
         $("#replyAddbtn").on("click", function () {
             $.ajax({
                 type: 'post',
@@ -171,70 +190,108 @@
             })
         });
 
-        $("#replies").on("click", ".replyLi button", function () {
-            var reply = $(this).parent();
+        //댓글 닫기
+
+        //수정 버튼 눌렀을 때
+        function openReplyButton() {
+            $("#modDiv" + id).show();
+            $("#openModify" + id).hide();
+            $("#replyer-input" + id).attr("readonly", false);
+            $("#replyer-des" + id).attr("readonly", false);
+            
+          //닫기 버튼
+            $("#closeBtn" + id).on("click", function () {
+                closeReplyButton();
+            });
+            //댓글 수정
+            $("#replyModBtn" + id).on("click", function () {
+                $.ajax({
+                    type: 'put',
+                    url: '/replies/' + id,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    dataType: 'text',
+                    data: JSON.stringify({
+                        replytext: $("#replyer-des" + id).val()
+                    }),
+                    success: function (result) {
+                        if (result == "SUCCESS") {
+                            $("#modDiv" + id).hide();
+                            $("#openModify" + id).show();
+                            id="undefined";
+                            getPageList(replyPage);
+                        }
+                    }
+                })
+            });
+            //댓글 지우기
+            $("#replyDelBtn" + id).on("click", function () {
+                $.ajax({
+                    type: 'delete',
+                    url: '/replies/' + id,
+                    header: {
+                        "Content-Type": "application/json"
+                    },
+                    dataType: 'text',
+                    success: function (result) {
+                        if (result == "SUCCESS") {
+                            getPageList(replyPage);
+                        }
+                    }
+                })
+            });
+
+        }
+        //수정 버튼
+        $("#replies").on("click", ".replycard .replyLi .openModify", function () {
+            var reply = $(this).parent().parent();
+            if (id != "undefined") {
+                closeReplyButton();
+            }
             id = reply.attr("data-id");
-            var replytext = reply.text();
 
-            $(".modal-title").html(id);
-            $("#replytext").val(replytext);
-            $("#modDiv").show();
-            //alert(id + " " + replytext);
+            //댓글 제목
+            replyTitle = reply.children('.replyLi').children('input').attr('value');
+            //댓글 설명
+            replyDes = reply.children('.replyLi2').children('#replyer-des' + id).val();
+            console.log(id);
+            console.log(replyDes);
+            openReplyButton();
         });
+        //닫기 버튼 눌렀을 때
+        function closeReplyButton() {
+            $("#modDiv" + id).hide();
+            $("#openModify" + id).show();
+            $("#replyer-input" + id).val(replyTitle);
+            $("#replyer-input" + id).attr("readonly", true);
+            $("#replyer-des" + id).attr("readonly", true);
+            $("#replyer-des" + id).val(replyDes);
+        }
 
-        $("#closeBtn").on("click", function () {
-            $("#modDiv").hide();
-        });
 
-        $("#replyModBtn").on("click", function () {
-            $.ajax({
-                type: 'put',
-                url: '/replies/' + id,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                dataType: 'text',
-                data: JSON.stringify({
-                    replytext: $("#replytext").val()
-                }),
-                success: function (result) {
-                    if (result == "SUCCESS") {
-                        alert("modify complete");
-                        $("#modDiv").hide();
-                        getPageList(replyPage);
-                    }
-                }
-            })
-        });
 
-        $("#replyDelBtn").on("click", function () {
-            $.ajax({
-                type: 'delete',
-                url: '/replies/' + id,
-                header: {
-                    "Content-Type": "application/json"
-                },
-                dataType: 'text',
-                success: function (result) {
-                    if (result == "SUCCESS") {
-                        alert("remove complete");
-                        $("#modDiv").hide();
-                        getPageList(replyPage);
-                    }
-                }
-            })
-        });
-
+        //댓글 리스트
         function getPageList(page) {
             $.getJSON("/replies/" + bid + "/" + page, function (data) {
                 var str = "";
                 $(data.list).each(function () {
-                    str += "<li data-id='" + this.id + "' class='replyLi'>" + this.id + ":" + this.replytext + "<Button>modify</Button></li>";
+                    str += "<div data-id='" + this.id + "' class='card mb-4 replycard'>";
+                    str += "<div class='card-header row-fluid replyLi' style='font-size:30px'>";
+                    str += "<input id='replyer-input" + this.id + "' type:text value='" + this.replyer + "' style='border: none; background: transparent;' readonly>";
+                    str += "<Button id='openModify" + this.id + "' class='btn float-right btn-primary openModify'>수정</Button>";
+                    str += "<span id='modDiv" + this.id + "' style='display: none'>";
+                    str += "<button class = 'btn float-right btn-primary type='button' id='replyModBtn" + this.id + "'>Modify</button>";
+                    str += "<button class = 'btn float-right btn-primary type='button' id='replyDelBtn" + this.id + "'>DELETE</button>";
+                    str += "<button class = 'btn float-right btn-primary type='button' id='closeBtn" + this.id + "'>Close</button></span></div>";
+                    str += "<div class='card-body replyLi2'> <textarea oninput='auto_grow(this)' id='replyer-des" + this.id + "' style='border: none; background: transparent;' readonly>" + this.replytext + "</textarea></div></div>";
                 });
                 $("#replies").html(str);
                 printPaging(data.pm);
             })
         }
+
+        //페이징
         function printPaging(pageMaker) {
             var str = "";
 
@@ -260,16 +317,25 @@
         });
 
         $("#remove").on("click", function () {
-        	form.attr("action", "/remove");
+            form.attr("action", "/remove");
             form.attr("method", "get");
             form.submit();
         });
         $("#list").on("click", function () {
-            
-        	form.attr("action", "/board");
+
+            form.attr("action", "/board");
             form.attr("method", "get");
             form.submit();
         });
+    </script>
+
+
+    <script>
+        //textarea 자동 조절
+        function auto_grow(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
     </script>
 </body>
 
