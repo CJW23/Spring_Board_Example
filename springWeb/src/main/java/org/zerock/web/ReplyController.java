@@ -23,8 +23,8 @@ import org.zerock.service.ReplyService;
 
 @RestController
 @RequestMapping("/replies")
-public class RestfulController {
-	private static final Logger logger = LoggerFactory.getLogger(RestfulController.class);
+public class ReplyController {
+	private static final Logger logger = LoggerFactory.getLogger(ReplyController.class);
 	@Inject
 	ReplyService service;
 	
