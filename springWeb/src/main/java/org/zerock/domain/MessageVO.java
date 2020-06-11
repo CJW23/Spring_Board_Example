@@ -1,9 +1,9 @@
-package org.zerock.aop;
+package org.zerock.domain;
 
 import java.util.Date;
 
 public class MessageVO {
-	private int mid;
+	private int mno;
 	private String targetid;
 	private String sender;
 	private String message;
@@ -11,10 +11,10 @@ public class MessageVO {
 	private Date senddate;
 	
 	public int getMid() {
-		return mid;
+		return mno;
 	}
 	public void setMid(int mid) {
-		this.mid = mid;
+		this.mno = mid;
 	}
 	public String getTargetid() {
 		return targetid;

@@ -1,4 +1,6 @@
-package org.zerock.aop;
+package org.zerock.dao;
+
+import org.zerock.domain.MessageVO;
 
 public interface MessageDAO {
 	public void create(MessageVO msg) throws Exception;

@@ -1,7 +1,13 @@
-package org.zerock.aop;
+package org.zerock.service;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Service;
+import org.zerock.dao.MessageDAO;
+import org.zerock.dao.PointDAO;
+import org.zerock.domain.MessageVO;
+
+@Service
 public class MessageServiceImpl implements MessageService{
 	@Inject
 	MessageDAO messageDAO;

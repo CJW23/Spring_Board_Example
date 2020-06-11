@@ -1,4 +1,4 @@
-package org.zerock.aop;
+package org.zerock.domain;
 
 public class UserVO {
 	private String uid;

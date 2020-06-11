@@ -1,9 +1,10 @@
-package org.zerock.aop;
+package org.zerock.dao;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.zerock.domain.MessageVO;
 
 @Repository
 public class MessageDAOImpl implements MessageDAO{
