@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.dao.BoardDAO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.CriteriaVO;
@@ -17,10 +18,13 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void regist(BoardVO boardVO) throws Exception {
 		boardDAO.createBoard(boardVO);
+
 	}
 
+	@Transactional
 	@Override
 	public BoardVO read(int id) throws Exception {
+		boardDAO.addViewCount(id);
 		return boardDAO.readBoard(id);
 	}
 

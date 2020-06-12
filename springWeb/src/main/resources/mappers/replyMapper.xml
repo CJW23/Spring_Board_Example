@@ -37,4 +37,16 @@
 	ORDER BY id DESC
 	LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
+	
+	<update id="addReplyCount">
+	UPDATE tbl_board
+	SET replycnt = replycnt + 1
+	WHERE id=#{id}
+	</update>
+	
+	<update id="minusReplyCount">
+	UPDATE tbl_board, tbl_reply
+	SET tbl_board.replycnt = tbl_board.replycnt - 1
+	WHERE tbl_board.id = tbl_reply.bid AND tbl_reply.id = #{id}
+	</update>
 </mapper>

@@ -12,4 +12,6 @@ public interface ReplyDAO {
 	public void updteReply(ReplysVO reply);
 	public int totalReply(int bid);
 	public List<ReplysVO> listPageReply(int bid, CriteriaVO cri);
+	public void addReplyCount(int id);
+	public void minusReplyCount(int id);
 }

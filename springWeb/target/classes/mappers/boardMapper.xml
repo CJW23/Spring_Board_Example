@@ -71,7 +71,11 @@
 		FROM tbl_board
 		]]>
 		<include refid="search"></include>
-
 	</select>
 	
+	<update id="addViewCount">
+	UPDATE tbl_board
+	SET viewcnt = viewcnt + 1
+	WHERE id = #{id}
+	</update>
 </mapper>

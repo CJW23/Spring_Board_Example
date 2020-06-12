@@ -26,7 +26,7 @@ public class BoardController {
 	@Inject
 	private BoardService service;
 
-	// 게시글 리스트
+	// 게시판 페이지
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
 	public String board(CriteriaVO cri, Model model) throws Exception {
 		//게시물 리스트
@@ -35,9 +35,6 @@ public class BoardController {
 		logger.info(Integer.toString(service.searchTotalNum(cri)));
 		logger.info(maker.toString());
 		maker.setTotalCnt(service.searchTotalNum(cri));	//페이징 계산
-		
-
-
 		
 		//페이지 번호 정보 
 		model.addAttribute("maker", maker);
@@ -50,7 +47,7 @@ public class BoardController {
 		return "/board/register";
 	}
 
-	// 등록 요청 처리
+	// 등록 요청
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerTry(BoardVO board, RedirectAttributes attr) throws Exception {
 		board.setWriter(3);
@@ -74,7 +71,7 @@ public class BoardController {
 		return "/board/modify";
 	}
 
-	// 수정 요청 처리
+	// 수정 요청
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modifyPost(BoardVO board, CriteriaVO cri, RedirectAttributes attr) throws Exception {
 		service.modify(board);
@@ -83,7 +80,8 @@ public class BoardController {
 		attr.addAttribute("perPageNum", cri.getPerPageNum());
 		return "redirect:/posts/" + board.getId();
 	}
-
+	
+	//게시글 삭제 요청
 	@RequestMapping(value = "/remove", method = RequestMethod.GET)
 	public String removePost(int id, CriteriaVO cri, RedirectAttributes attr) throws Exception {
 		service.remove(id);
@@ -91,9 +89,5 @@ public class BoardController {
 		attr.addAttribute("perPageNum", cri.getPerPageNum());
 		return "redirect:/board";
 	}
-	
-	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public String test() {
-		return "replies/test";
-	}
+
 }

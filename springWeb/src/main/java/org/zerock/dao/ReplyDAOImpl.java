@@ -56,4 +56,18 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return sqlSession.selectList(namespace+".selectPageReplyList", mp);
 	}
 
+
+	@Override
+	public void addReplyCount(int id) {
+		sqlSession.update(namespace+".addReplyCount", id);
+	}
+
+
+	@Override
+	public void minusReplyCount(int id) {
+		sqlSession.update(namespace+".minusReplyCount", id);
+		
+	}
+	
+	
 }

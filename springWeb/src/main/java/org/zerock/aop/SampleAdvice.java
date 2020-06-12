@@ -31,7 +31,7 @@ public class SampleAdvice {
 		
 		Object result = pjp.proceed();
 		
-		logger.info("==========================");
+		logger.info("===================== =====");
 		return result;
 	}
 }

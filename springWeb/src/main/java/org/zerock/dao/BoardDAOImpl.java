@@ -61,5 +61,10 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(namespace+".searchListNum", cri);
 	}
+
+	@Override
+	public void addViewCount(int id) {
+		sqlSession.update(namespace+".addViewCount", id);
+	}
 	
 }

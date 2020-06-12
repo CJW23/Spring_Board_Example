@@ -3,6 +3,7 @@ package org.zerock.service;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.dao.MessageDAO;
 import org.zerock.dao.PointDAO;
 import org.zerock.domain.MessageVO;
@@ -16,6 +17,7 @@ public class MessageServiceImpl implements MessageService{
 	PointDAO pointDAO;
 	
 	@Override
+	@Transactional
 	public void addMessage(MessageVO msg) throws Exception {
 		messageDAO.create(msg);						//메시지 저장
 		pointDAO.updatePoint(msg.getSender(), 10);	//메시지를 쓴 유저 포인트 적용

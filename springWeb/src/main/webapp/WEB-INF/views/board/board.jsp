@@ -107,7 +107,7 @@
 										<c:forEach items="${list}" var="boardVO">
 											<tr>
 												<td><a
-													href='/posts/${boardVO.id}?curPage=${maker.cri.curPage}&perPageNum=${maker.cri.perPageNum}&keyword=${maker.cri.keyword}'>${boardVO.title}</a>
+													href='/posts/${boardVO.id}?curPage=${maker.cri.curPage}&perPageNum=${maker.cri.perPageNum}&keyword=${maker.cri.keyword}'>${boardVO.title} [ ${boardVO.replycnt} ]</a>
 												</td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd  kk:mm:ss"
 														value="${boardVO.regdate}" /></td>

@@ -9,6 +9,8 @@ public class BoardVO {
 	private int writer;
 	private Date regdate;
 	private int viewcnt;
+	private int replycnt;
+	
 	public int getId() {
 		return id;
 	}
@@ -45,8 +47,15 @@ public class BoardVO {
 	public void setViewcnt(int viewcnt) {
 		this.viewcnt = viewcnt;
 	}
+	public int getReplycnt() {
+		return replycnt;
+	}
+	public void setReplycnt(int replycnt) {
+		this.replycnt = replycnt;
+	}
 	@Override
 	public String toString() {
 		return id + " " + title + " " + des + " " + writer + " " + regdate + " " + viewcnt;
 	}
+
 }

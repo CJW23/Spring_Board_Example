@@ -64,10 +64,11 @@ public class BoardDAOTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void searchListBoardNumTest() throws Exception{
 		CriteriaVO cri = new CriteriaVO();
 		cri.setKeyword("안드로이드");
 		System.out.println(dao.searchBoardNum(cri));
 	}
+	
 }

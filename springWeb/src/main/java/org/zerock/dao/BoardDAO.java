@@ -15,4 +15,5 @@ public interface BoardDAO {
 	public int totalBoardNum();
 	public List<BoardVO> searchBoardList(CriteriaVO cri) throws Exception;
 	public int searchBoardNum(CriteriaVO cri) throws Exception;
+	public void addViewCount(int id);
 }
