@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class BoardPageMaker {
+	
 	private CriteriaVO cri;		//현재 페이지, 한 페이지당 보여줄 게시글 수
 	private int totalCnt;		//전체 게시글 수
 	private int startPage;		//시작 페이지 번호
@@ -44,6 +45,7 @@ public class BoardPageMaker {
 			return "";
 		}
 	}
+	
 	public void setCri(CriteriaVO cri) {
 		this.cri = cri;
 	}

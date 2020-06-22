@@ -1,6 +1,7 @@
 package org.zerock.web;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,14 +44,16 @@ public class BoardController {
 
 	// 등록 페이지
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String registerPage() throws Exception {
+	public String registerPage(HttpServletRequest request) throws Exception {
+		logger.info("login : " + request.getSession().getAttribute("login").toString());
 		return "/board/register";
 	}
 
 	// 등록 요청
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerTry(BoardVO board, RedirectAttributes attr) throws Exception {
-		board.setWriter(3);
+	public String registerTry(BoardVO board, RedirectAttributes attr, HttpServletRequest request) throws Exception {
+		//logger.info("writer : " + board.getWriter());
+		logger.info("login : " + request.getSession().getAttribute("login").toString());
 		service.regist(board);
 		logger.info(board.getDes());
 		attr.addFlashAttribute("msg", "success");

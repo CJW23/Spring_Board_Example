@@ -21,8 +21,23 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<beans:bean id="loginInterceptor" class="org.zerock.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="authInterceptor" class="org.zerock.interceptor.AuthInterceptor"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/loginRequest"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/register"/>
+			<mapping path="/posts/*"/>
+			<mapping path="/modify"/>
+			<mapping path=""/>
+			<beans:ref bean="authInterceptor"/> 
+		</interceptor>
+	</interceptors>
 	<context:component-scan base-package="org.zerock.web" />
-	
 	
 	
 </beans:beans>

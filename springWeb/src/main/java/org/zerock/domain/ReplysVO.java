@@ -5,6 +5,7 @@ import java.util.Date;
 public class ReplysVO {
 	private int id;
 	private int bid;
+	private int uid;
 	private String replytext;
 	private String replyer;
 	private Date regdate;
@@ -46,6 +47,12 @@ public class ReplysVO {
 		this.updatedate = updatedate;
 	}
 	
+	public int getUid() {
+		return uid;
+	}
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 	@Override
 	public String toString() {
 		return "id: " + id

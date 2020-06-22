@@ -9,8 +9,8 @@
 	</select>
 	
 	<insert id="insertReply">
-	INSERT INTO tbl_reply(bid, replytext, replyer)
-	VALUES (#{bid}, #{replytext}, #{replyer})
+	INSERT INTO tbl_reply(bid,uid, replytext, replyer)
+	VALUES (#{bid}, #{uid}, #{replytext}, #{replyer})
 	</insert>
 	
 	<delete id="deleteReply" >

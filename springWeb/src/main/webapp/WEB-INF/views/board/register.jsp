@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,6 +74,7 @@
                         <div class="card-header">게시글 등록</div>
                         <div class="card-body">
                             <form role="form" method="POST">
+                            	<input type="hidden" name="writer" value="${login.id}"/>
                                 <label class="small mb-1" for="inputFirstName">제목</label>
                                 <input class="form-control py-4" name="title" type="text" />
                                 <div class="form-group">

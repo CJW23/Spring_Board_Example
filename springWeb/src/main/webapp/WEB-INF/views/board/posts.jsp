@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page session="false"%>
+<%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,20 +92,21 @@
                         <div class="card-header">게시글 등록</div>
                         <div class="card-body">
                             <label class="small mb-1" for="inputFirstName">제목</label>
-                            <input class="form-control py-4" name="title" type="text" value="${posts.title}" readonly
-                            />
+                            <input class="form-control py-4" name="title" type="text" value="${posts.title}" readonly />
                             <div class="form-group">
                                 <label class="small mb-1" for="inputEmailAddress">내용</label>
                                 <textarea oninput="auto_grow(this)" class="form-control py-4" style="resize: none" name="des" aria-describedby="emailHelp"
                                     readonly>${posts.des}</textarea>
                             </div>
                             <div class="row">
-                                <div class="col-sm">
-                                    <button type="submit" id="update" class="btn btn-primary btn-block">수정</button>
-                                </div>
-                                <div class="col-sm">
-                                    <button type="submit" id="remove" class="btn btn-light btn-block">삭제</button>
-                                </div>
+                                <c:if test="${login.id == posts.writer}">
+                                    <div class="col-sm">
+                                        <button type="submit" id="update" class="btn btn-primary btn-block">수정</button>
+                                    </div>
+                                    <div class="col-sm">
+                                        <button type="submit" id="remove" class="btn btn-light btn-block">삭제</button>
+                                    </div>
+                                </c:if>
                                 <div class="col-sm">
                                     <button type="submit" id="list" class="btn btn-secondary btn-block">돌아가기</button>
                                 </div>
@@ -119,6 +120,7 @@
                     <br>
                     <div class="card mb-4">
                         <div class="card-header">
+                            <input type="hidden" id='uid' value='${login.id}'>
                             <input type="text" class="form-control py-4" name='replyer' id='newReplyWriter'>
                         </div>
                         <div class="card-body">
@@ -130,7 +132,7 @@
 
                     <!--댓글-->
                     <div id="replies">
-                       
+
                     </div>
                     <ul class="pagination"></ul>
                 </div>
@@ -140,8 +142,7 @@
         </div>
     </div>
 
-
-
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../resources/board/js/scripts.js"></script>
@@ -151,6 +152,30 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="../resources/board/assets/demo/datatables-demo.js"></script>
+
+    <script id="template" type="text/x-handlebars-template">
+        {{#each .}}
+        <div data-id={{id}} class='card mb-4 replycard'>
+            <div class='card-header row-fluid replyLi' style='font-size:30px'>
+                <input id='replyer-input{{id}}' type:text value={{replyer}} style='border: none; background: transparent;' readonly>
+                {{#ReplyerCheck uid}}
+                <Button id='openModify{{id}}' class='btn float-right btn-primary openModify'>수정</Button>
+                {{/ReplyerCheck}}
+                <span id='modDiv{{id}}' style='display: none'>
+                    <button class="btn float-right btn-primary" type='button' id='replyModBtn{{id}}'>Modify</button>
+                    <button class="btn float-right btn-primary" type='button' id='replyDelBtn{{id}}'>Delete</button>
+                    <button class="btn float-right btn-primary" type='button' id='closeBtn{{id}}'>Close</button>
+                </span>
+            </div>
+            <div class="card-body replyLi2">
+                <textarea oninput="auto_grow(this)" id="replyer-des{{id}}" style='border: none; background: transparent;' readonly>{{replytext}}
+                </textarea>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    
+
     <script>
         var bid = '${posts.id}';
         var id;
@@ -179,6 +204,7 @@
                 dataType: 'text',
                 data: JSON.stringify({
                     bid: bid,
+                    uid: $("#uid").val(),
                     replyer: $("#newReplyWriter").val(),
                     replytext: $("#newReplyText").val()
                 }),
@@ -199,8 +225,8 @@
             $("#openModify" + id).hide();
             $("#replyer-input" + id).attr("readonly", false);
             $("#replyer-des" + id).attr("readonly", false);
-            
-          //닫기 버튼
+
+            //닫기 버튼
             $("#closeBtn" + id).on("click", function () {
                 closeReplyButton();
             });
@@ -219,8 +245,8 @@
                     success: function (result) {
                         if (result == "SUCCESS") {
                             $("#modDiv" + id).hide();
-                            $("#openModify" + id).show();
-                            id="undefined";
+                            $("#openModify").show();
+                            id = "undefined";
                             getPageList(replyPage);
                         }
                     }
@@ -275,19 +301,9 @@
         //댓글 리스트
         function getPageList(page) {
             $.getJSON("/replies/" + bid + "/" + page, function (data) {
-                var str = "";
-                $(data.list).each(function () {
-                    str += "<div data-id='" + this.id + "' class='card mb-4 replycard'>";
-                    str += "<div class='card-header row-fluid replyLi' style='font-size:30px'>";
-                    str += "<input id='replyer-input" + this.id + "' type:text value='" + this.replyer + "' style='border: none; background: transparent;' readonly>";
-                    str += "<Button id='openModify" + this.id + "' class='btn float-right btn-primary openModify'>수정</Button>";
-                    str += "<span id='modDiv" + this.id + "' style='display: none'>";
-                    str += "<button class = 'btn float-right btn-primary type='button' id='replyModBtn" + this.id + "'>Modify</button>";
-                    str += "<button class = 'btn float-right btn-primary type='button' id='replyDelBtn" + this.id + "'>DELETE</button>";
-                    str += "<button class = 'btn float-right btn-primary type='button' id='closeBtn" + this.id + "'>Close</button></span></div>";
-                    str += "<div class='card-body replyLi2'> <textarea oninput='auto_grow(this)' id='replyer-des" + this.id + "' style='border: none; background: transparent;' readonly>" + this.replytext + "</textarea></div></div>";
-                });
-                $("#replies").html(str);
+                var source = $("#template").html();
+                var template = Handlebars.compile(source);
+                $("#replies").html(template(data.list));
                 printPaging(data.pm);
             })
         }
@@ -308,6 +324,15 @@
             }
             $(".pagination").html(str);
         }
+
+        Handlebars.registerHelper("ReplyerCheck", function(uid, block){
+            var accum ='';
+            if(uid == '${login.id}'){
+                accum += block.fn(this);
+            }
+            console.log(accum);
+            return accum;
+        });
     </script>
     <script>
         var form = $("form[role='form']");
